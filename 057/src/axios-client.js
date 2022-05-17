@@ -1,4 +1,5 @@
-const axios = require('axios').default;
+const axios = require('axios').default
+const qs = require('qs');
 
 const requests = [
   {
@@ -53,123 +54,15 @@ const requests = [
   }
 ]
 
-const baseURL = 'http://localhost:3000/api/v1/' 
+const baseURL = 'http://localhost:3000/api/v1/'
 
-  function axiosGet(){
-    requests.forEach(request => {
-      if(request.method === 'get'){
-        axios.get(baseURL + request.url).then(function (response) {
-          // handle success
-          console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        })
-      }
-    })
+const startRequests = async function () {
+  const instance = axios.create({baseURL: baseURL})
+  for(const req of requests){
+    await instance({method: req.method, url: req.url, data: req.newContact})
+      .then((req) => console.log(JSON.stringify(req.data)))
+      .catch((req) => console.log(req.response?.status))
   }
+}
 
-  let count = 0;
-
-  function generalAxios(){
-
-    // for (const request of requests) {
-    //   request.method === 'get' ?
-    //   (axios.get(baseURL + request.url).then(function (response) {
-    //     console.log(JSON.stringify(response.data));
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   }))
-    //   :
-    //   request.method === 'post' ?
-    //     (axios.post(baseURL + request.url, request.newContact).then(function (response) {
-    //       console.log(JSON.stringify(response.data));
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //     }))
-    //     :
-    //     request.method === 'delete' ?
-    //     (axios.delete(baseURL + request.url).then(function (response) {
-    //     console.log(response.data);
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //     }))
-    //   :
-    //     console.log('Invalid method!')
-    // }
-
-
-    requests.forEach(request => {
-      // if(request.newContact == null)
-      //   console.log('request: ' + request + ', method: ' + request.method + ', url: ' + request.url)
-      // else 
-      //   console.log('request: ' + request + ', method: ' + request.method + ', url: ' + request.url + ', newContact: ' + request.newContact)
-      request.method === 'get' ?
-      (axios.get(baseURL + request.url).then(function (response) {
-        console.log(JSON.stringify(response.data));
-      })
-      .catch(function (error) {
-        console.log(error);
-      }))
-      :
-      request.method === 'post' ?
-        (axios.post(baseURL + request.url, request.newContact).then(function (response) {
-          console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-          console.log(error);
-        }))
-        :
-        request.method === 'delete' ?
-        (axios.delete(baseURL + request.url).then(function (response) {
-        console.log(response.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-        }))
-      :
-      (
-        console.log('Invalid method!')
-      )
-    })
-  }
-
-  function axiosPost(){
-    requests.forEach(request => {
-      if(request.method === 'post'){
-        axios.post(baseURL + request.url, request.newContact).then(function (response) {
-          // handle success
-          console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-      }
-    })
-  }
-
-  function axiosDelete(){
-    requests.forEach(request => {
-      if(request.method === 'delete'){
-        axios.delete(baseURL + request.url).then(function (response) {
-          // handle success
-          console.log(response.data);
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        })
-      }
-    })
-  }
-
-  generalAxios()
-  // axiosPost()
-  // axiosDelete()
-  // axiosGet()
-
-
+startRequests()

@@ -13,6 +13,8 @@
   "author": "Philip Ackermann",
   "dependencies": {
     "axios": "^0.27.2",
+    "qs": "^6.10.3",
+    "standard": "^17.0.0",
     "superagent": "^5.0.6"
   }
 }

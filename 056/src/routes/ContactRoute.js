@@ -1,7 +1,15 @@
 const ContactModel = require('../model/ContactModel')
+const qs = require('qs');
+const assert = require('assert');
 
 module.exports = class ContactRoute {
   static getContacts (request, response) {
+    const filter = JSON.parse(JSON.stringify(qs.parse(request.query, { delimiter: '?' })))
+    console.log(JSON.parse(JSON.stringify(qs.parse(request.query, { delimiter: '?' }))))
+    //var obj = JSON.parse(filter);
+
+    // Accessing individual value from JS object
+    //console.log(obj.firstName); // Outputs: Peter
     const contactsArray = ContactModel.getContacts()
     response.send(contactsArray)
   }
